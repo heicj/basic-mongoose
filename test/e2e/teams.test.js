@@ -101,4 +101,12 @@ describe('team api', () => {
             });
     });
 
+    it('returns 404 if id does not exist', () => {
+        return request.get(`/teams/${blazers._id}`)
+            .then(response => {
+                assert.equal(response.status, 404);
+                assert.match(response.body.error, /^Team with id/);
+            });
+    }); 
+
 });
