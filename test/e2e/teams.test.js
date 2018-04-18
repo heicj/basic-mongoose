@@ -11,7 +11,8 @@ describe('team api', () => {
         coach: 'Coach K',
         location: {
             state: 'NC'
-        }
+        },
+        players: ['player1']
     };
 
     let blazers = {
@@ -19,15 +20,31 @@ describe('team api', () => {
         coach: 'Stotts',
         location: {
             state: 'OR'
-        }
+        },
+        players: ['player2']
     };
 
+    // it('saves and gets a pirate', () => {
+    //     return new Team(duke).save()
+    //         .then(saved => {
+    //             saved = saved.toJSON();
+    //             const { _id, __v } = saved;
+    //             assert.ok(_id);
+    //         });
+    // });
+
     it('saves and gets a pirate', () => {
-        return new Team(duke).save()
-            .then(saved => {
-                saved = saved.toJSON();
-                const { _id, __v } = saved;
+        return request.post('/teams')
+            .send(duke)
+            .then(({ body }) => {
+                const { _id, __v } = body;
                 assert.ok(_id);
+                assert.equal(__v, 0);
+                assert.deepEqual(body, {
+                    _id, __v,
+                    ...duke
+                });
+                duke = body;
             });
     });
 
@@ -55,6 +72,15 @@ describe('team api', () => {
             })
             .then(updated => {
                 assert.deepEqual(updated, blazers);
+            });
+    });
+
+    const getFields = ({ _id, teamName, coach }) => ({ _id, teamName, coach });
+
+    it('gets all teams but only _id, teamName, and coach', () => {
+        return request.get('/teams')
+            .then(({ body }) => {
+                assert.deepEqual(body, [duke, blazers].map(getFields));
             });
     });
 

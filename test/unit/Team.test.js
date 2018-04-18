@@ -47,7 +47,7 @@ describe('Team model', () => {
             stadium: {
                 capacity: -5
             },
-            loation: {
+            location: {
 
                 state: 'Oregon'
             }
@@ -55,7 +55,7 @@ describe('Team model', () => {
 
         const errors = getValidationErrors(team.validateSync());
         assert.equal(errors['stadium.capacity'].kind, 'min');
-        assert.equal(errors['location.state'].kind, 'required'); //why not enum error?
+        assert.equal(errors['location.state'].kind, 'enum');
     });
 
 });
