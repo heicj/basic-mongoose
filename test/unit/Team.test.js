@@ -25,7 +25,7 @@ describe('Team model', () => {
             ...data
         });
 
-
+        assert.isUndefined(team.validateSync());
     });
 
 });
