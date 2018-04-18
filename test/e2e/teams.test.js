@@ -84,4 +84,11 @@ describe('team api', () => {
             });
     });
 
+    it('queries a team', () => {
+        return request.get('/teams?teamName=Trailblazers')
+            .then(({ body }) => {
+                assert.deepEqual(body, [blazers].map(getFields));
+            });
+    });
+
 });
