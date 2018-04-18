@@ -44,4 +44,18 @@ describe('team api', () => {
             });
     });
 
+    it('update a team', () => {
+        blazers.coach = 'Mr Stotts';
+
+        return request.put(`/teams/${blazers._id}`)
+            .send(blazers)
+            .then(({ body }) => {
+                assert.deepEqual(body, blazers);
+                return Team.findById(blazers._id).then(roundTrip);
+            })
+            .then(updated => {
+                assert.deepEqual(updated, blazers);
+            });
+    });
+
 });
