@@ -31,4 +31,17 @@ describe('team api', () => {
             });
     });
 
+    const roundTrip = doc => JSON.parse(JSON.stringify(doc.toJSON()));
+
+    it('gets tetam by id', () => {
+        return Team.create(blazers).then(roundTrip)
+            .then(saved => {
+                blazers = saved;
+                return request.get(`/teams/${blazers._id}`);
+            })
+            .then(({ body }) => {
+                assert.deepEqual(body, blazers);
+            });
+    });
+
 });
