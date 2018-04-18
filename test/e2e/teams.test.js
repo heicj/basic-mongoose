@@ -85,9 +85,19 @@ describe('team api', () => {
     });
 
     it('queries a team', () => {
-        return request.get('/teams?teamName=Trailblazers')
+        return request.get('/teams?location.state=OR')
             .then(({ body }) => {
                 assert.deepEqual(body, [blazers].map(getFields));
+            });
+    });
+
+    it('deletes team by id', () => {
+        return request.delete(`/teams/${blazers._id}`)
+            .then(() => {
+                return Team.findById(blazers._id);
+            })
+            .then(found => {
+                assert.isNull(found);
             });
     });
 
