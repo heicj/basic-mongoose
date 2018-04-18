@@ -28,4 +28,34 @@ describe('Team model', () => {
         assert.isUndefined(team.validateSync());
     });
 
+    const getValidationErrors = validation => {
+        assert.isDefined(validation, 'expected validation errors but got none');
+        return validation.errors;
+    };
+
+    it('name is required field', () => {
+        const team = new Team({});
+        const errors = getValidationErrors(team.validateSync());
+        assert.equal(Object.keys(errors).length, 2);
+        assert.equal(errors.teamName.kind, 'required');
+        assert.equal(errors['location.state'].kind, 'required');
+    });
+
+    it('stadium capacity must be positive, state must be enum', () => {
+        const team = new Team({
+            teamName: 'testTeam',
+            stadium: {
+                capacity: -5
+            },
+            loation: {
+
+                state: 'Oregon'
+            }
+        });
+
+        const errors = getValidationErrors(team.validateSync());
+        assert.equal(errors['stadium.capacity'].kind, 'min');
+        assert.equal(errors['location.state'].kind, 'required'); //why not enum error?
+    });
+
 });
