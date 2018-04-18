@@ -24,15 +24,6 @@ describe('team api', () => {
         players: ['player2']
     };
 
-    // it('saves and gets a pirate', () => {
-    //     return new Team(duke).save()
-    //         .then(saved => {
-    //             saved = saved.toJSON();
-    //             const { _id, __v } = saved;
-    //             assert.ok(_id);
-    //         });
-    // });
-
     it('saves and gets a pirate', () => {
         return request.post('/teams')
             .send(duke)
