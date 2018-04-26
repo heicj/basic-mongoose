@@ -1,8 +1,6 @@
 const fastify = require('fastify')();
 
-fastify.get('/', function(request, reply){
-    reply.send({ hello: 'world' });
-});
+fastify.register(require('./lib/app'));
 
 fastify.listen(3000, function(err) {
     if(err){
