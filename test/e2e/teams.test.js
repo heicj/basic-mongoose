@@ -24,7 +24,7 @@ describe('team api', () => {
         players: ['player2']
     };
 
-    it('saves and gets a pirate', () => {
+    it.only('saves and gets a team', () => {
         return request.post('/teams')
             .send(duke)
             .then(({ body }) => {
