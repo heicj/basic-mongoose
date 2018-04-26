@@ -1,6 +1,13 @@
 const fastify = require('fastify')();
 
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/teams';
 fastify.register(require('./lib/app'));
+
+fastify.register(require('fastify-mongoose'), {
+    uri: MONGODB_URI
+}, err => {
+    if(err) throw err;
+});
 
 fastify.listen(3000, function(err) {
     if(err){
@@ -17,7 +24,6 @@ fastify.listen(3000, function(err) {
 // // this env name "PORT" is used by heroku
 // const PORT = process.env.PORT || 3000;
 // // this env name "MONGODB_URI" is used by heroku when adding an mLab instance
-// const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/teams';
 
 // connect(MONGODB_URI);
 
